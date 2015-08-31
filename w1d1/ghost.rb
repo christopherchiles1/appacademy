@@ -1,4 +1,4 @@
-require "./player.rb"
+require_relative "player.rb"
 
 class Game
   def initialize(player1, player2)
@@ -12,7 +12,8 @@ class Game
 
   def play_round
     until round_over?
-      take_turn(@current_player)
+      display_fragment
+      take_turn(current_player)
       next_player!
     end
     puts "You lost the round, #{previous_player.name}"
@@ -24,30 +25,40 @@ class Game
   attr_reader :current_player, :previous_player
 
   def round_over?
-    @dictionary.empty? || (@dictionary.length == 1 && @dictionary.keys[0] == @fragment)
+    word_spelled?
+  end
+
+  def word_spelled?
+    dictionary.include?(fragment)
+  end
+
+  def display_fragment
+    puts "Fragment: #{fragment}"
   end
 
   def take_turn(player)
     input = player.guess
     until valid_play?(input)
-      player.alert_invalid_guess
-      input = player.guess
+      input = player.alert_invalid_guess
     end
     @fragment += input
-    @dictionary = filter_dictionary
-    puts "There are still #{dictionary.length} valid words"
+    filter_dictionary!
   end
 
   def next_player!
     @current_player, @previous_player = @previous_player, @current_player
   end
 
-  def valid_play?(guess)
-    guess.length == 1 && !filter_dictionary(guess).empty?
+  def valid_play?(char)
+    ('a'..'z').include?(char) && valid_char?(char)
   end
 
-  def filter_dictionary(guess = "")
-    @dictionary.select { |k, v| k.include?(@fragment + guess) }
+  def valid_char?(char)
+    dictionary.any? { |k, _| k.start_with?(@fragment + char)}
+  end
+
+  def filter_dictionary!
+    self.dictionary = dictionary.select { |k, _| k.start_with?(@fragment) }
   end
 end
 
