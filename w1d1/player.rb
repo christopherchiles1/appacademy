@@ -9,9 +9,4 @@ class Player
     puts "#{name}, pick a letter."
     gets.chomp
   end
-
-  def alert_invalid_guess
-    puts "Invalid guess, try again."
-    guess
-  end
 end
