@@ -1,12 +1,11 @@
 require_relative 'board'
-require_relative 'card'
 require_relative 'player'
 
 class Game
-
-  def initialize(size = 4)
-    @board = Board.new(size)
+  def initialize(size = 4, num_to_match = 2)
+    @board = Board.new(size, num_to_match)
     @player = Player.new(board)
+    @selections = []
   end
 
   def play
@@ -19,32 +18,30 @@ class Game
 
   private
 
-  attr_reader :board, :player, :first_selection, :current_selection
+  attr_reader :board, :player, :selections
 
   def make_guess(position)
-    @current_selection = position.dup
+    current_selection = position.dup
+
+    @selections << current_selection
     card = board[current_selection]
     raise InvalidSelectionError unless card.is_hidden?
 
-    if first_selection
-      other_card = board[first_selection]
-      board.show_card_at(current_selection)
-      handle_no_match unless card == other_card
+    board.show_card_at(current_selection)
+
+    if selections.length == board.num_to_match
+      handle_no_match unless selections.all? { |pos| board[pos] == card }
       deselect_cards
-    else
-      @first_selection = current_selection
-      board.show_card_at(current_selection)
     end
   end
 
   def handle_no_match
-      sleep(1)
-      board[@first_selection].hide
-      board[@current_selection].hide
+      sleep(0.5)
+      selections.each { |pos| board[pos].flip_card }
   end
 
   def deselect_cards
-    @first_selection = nil
+    @selections = []
   end
 
   def over?
@@ -56,7 +53,8 @@ class InvalidSelectionError < StandardError
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # takes size as a command line argument
-  size = ARGV.empty? ? 4 : ARGV.shift
-  Game.new(size).play
+  # takes size and num_to_match as command line arguments
+  size = ARGV.empty? ? 4 : ARGV.shift.to_i
+  num_to_match = ARGV.empty? ? 2 : ARGV.shift.to_i
+  Game.new(size, num_to_match).play
 end

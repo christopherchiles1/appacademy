@@ -1,8 +1,10 @@
 class Card
   attr_accessor :value, :side
 
+  SYMBOLS = ('A'..'Z').to_a
+
   def initialize(val)
-    @value = val
+    @value = SYMBOLS[val]
     @side = :down
   end
 
@@ -10,20 +12,12 @@ class Card
     side == :down
   end
 
-  def hide
-    @side = :down
-  end
-
-  def reveal
-    @side = :up
+  def flip_card
+    @side = is_hidden? ? :up : :down
   end
 
   def to_s
-    if self.side == :down
-      "X"
-    else
-      "#{value}"
-    end
+    is_hidden? ? " \u2588 " : " #{value} "
   end
 
   def ==(card)

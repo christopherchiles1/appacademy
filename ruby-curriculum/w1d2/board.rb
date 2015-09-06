@@ -1,33 +1,42 @@
 require 'colorize'
+require_relative 'card'
 
 class Board
-  attr_reader :size, :cursor
+  attr_reader :size, :cursor, :num_to_match
 
-  def initialize(size)
+  def initialize(size, num_to_match = 2)
     @size = size
+    @num_to_match = num_to_match
     @cursor = [0, 0]
     setup_board
   end
 
   def show_card_at(position)
-    self[position].reveal
+    self[position].flip_card
     render
   end
 
   def render
     system('clear')
-
+    print "  \u2554\u2550".yellow
+    size.times { print "\u2550\u2550\u2550".yellow }
+    print "\u2550\u2557 ".yellow
+    puts
     @grid.each_with_index do |line, row|
+      print "  \u2551 ".yellow
       line.each_with_index do |card, col|
         if cursor == [row, col]
-          print card.to_s.colorize(:light_cyan).on_light_black
+          print card.is_hidden? ? card.to_s.blue.on_green : card.to_s.red.on_green
         else
-          print card
+          print card.is_hidden? ? card.to_s.blue : card.to_s.red
         end
       end
-
+      print " \u2551 ".yellow
       puts
     end
+    print "  \u255A\u2550".yellow
+    size.times { print "\u2550\u2550\u2550".yellow }
+    print "\u2550\u255D ".yellow
   end
 
   def move_cursor(dir)
@@ -64,9 +73,9 @@ class Board
 
   def create_cards
     cards = []
-    num_pairs = (@size ** 2) / 2
-    (1..num_pairs).each do |card|
-      2.times { cards << Card.new(card) }
+    num_matches = (@size ** 2) / num_to_match
+    (0...num_matches).each do |card|
+      num_to_match.times { cards << Card.new(card % 26) }
     end
     cards.shuffle
   end
