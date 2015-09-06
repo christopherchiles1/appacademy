@@ -17,7 +17,7 @@ class Card
   end
 
   def to_s
-    is_hidden? ? " \u2588 " : " #{value} "
+    is_hidden? ? " \u2573 " : " #{value} "
   end
 
   def ==(card)
