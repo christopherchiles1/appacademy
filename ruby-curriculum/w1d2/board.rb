@@ -5,25 +5,13 @@ class Board
 
   def initialize(size)
     @size = size
-    @grid = populate
     @cursor = [0, 0]
+    setup_board
   end
 
-  def populate
-    deck = []
-    pairs = @size**2 / 2
-    (1..pairs).each do |card|
-      2.times { deck << Card.new(card) }
-    end
-    deck.shuffle
-
-    grid = Array.new(size) do |row|
-      Array.new(size) do |col|
-        deck.shift
-      end
-    end
-
-    grid
+  def show_card_at(position)
+    self[position].reveal
+    render
   end
 
   def render
@@ -68,4 +56,18 @@ class Board
   private
 
   attr_reader :grid
+
+  def setup_board
+    cards = create_cards
+    @grid = Array.new(size) { Array.new(size) { cards.shift } }
+  end
+
+  def create_cards
+    cards = []
+    num_pairs = (@size ** 2) / 2
+    (1..num_pairs).each do |card|
+      2.times { cards << Card.new(card) }
+    end
+    cards.shuffle
+  end
 end

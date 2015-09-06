@@ -1,8 +1,6 @@
 require 'io/console'
 
 class Player
-  attr_reader :board
-
   def initialize(board)
     @board = board
   end
@@ -23,11 +21,16 @@ class Player
       when "\e[D"
         board.move_cursor(:left)
       when "\u0003"
+        system("clear")
         puts "Exiting..."
         exit 0
       end
     end
   end
+
+  private
+
+  attr_reader :board
 
   def read_char
     STDIN.echo = false

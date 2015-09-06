@@ -6,6 +6,10 @@ class Card
     @side = :down
   end
 
+  def is_hidden?
+    side == :down
+  end
+
   def hide
     @side = :down
   end
