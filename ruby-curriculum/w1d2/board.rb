@@ -1,10 +1,12 @@
 require 'colorize'
 
 class Board
-  attr_reader :size
+  attr_reader :size, :cursor
+
   def initialize(size)
     @size = size
     @grid = populate
+    @cursor = [0, 0]
   end
 
   def populate
@@ -24,12 +26,12 @@ class Board
     grid
   end
 
-  def render(position=[0,0])
+  def render
     system('clear')
 
     @grid.each_with_index do |line, row|
       line.each_with_index do |card, col|
-        if position == [row, col]
+        if cursor == [row, col]
           print card.to_s.colorize(:light_cyan).on_light_black
         else
           print card
@@ -40,11 +42,22 @@ class Board
     end
   end
 
-  def won?
-    @grid.flatten.all? { |card| card.side == :up }
+  def move_cursor(dir)
+    case dir
+    when :up
+      cursor[0] = (cursor[0] - 1) % size
+    when :down
+      cursor[0] = (cursor[0] + 1) % size
+    when :right
+      cursor[1] = (cursor[1] + 1) % size
+    when :left
+      cursor[1] = (cursor[1] - 1) % size
+    end
+    render
   end
 
-  def reveal
+  def won?
+    @grid.flatten.all? { |card| card.side == :up }
   end
 
   def [](position)
