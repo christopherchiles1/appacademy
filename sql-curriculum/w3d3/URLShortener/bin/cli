@@ -1,0 +1,27 @@
+begin
+  puts "Input your email:"
+  email = gets.chomp
+  user = User.find_by_email(email)
+  raise "Invalid Email" unless user
+rescue => e
+  puts e.messages
+  retry
+end
+
+begin
+  puts "What do you want to do?"
+  puts "0. Create shortened URL"
+  puts "1. Visit shortened URL"
+  option = gets.chomp
+  raise "Invalid Option" unless option.between?(0,1)
+rescue => e
+  puts e.messages
+  retry
+end
+
+if option.zero?
+  puts "Type in your long url"
+  long_url = gets.chomp
+  short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  puts "Short url is: #{short_url.short_url}"
+end
