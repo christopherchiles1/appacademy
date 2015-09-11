@@ -3,7 +3,7 @@ require_relative '01_sql_object'
 
 module Searchable
   def where(params)
-    where_line = params.map { |col, _| col.to_s + ' = ?'}.join(' AND ')
+    where_line = params.map { |col, _| "#{col} = ?" }.join(' AND ')
 
     results = DBConnection.execute(<<-SQL, params.values)
       SELECT
