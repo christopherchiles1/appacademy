@@ -1,24 +1,37 @@
 require 'io/console'
+
 class Player
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-  end
-  #empty until AI section
-  #will have HumanPlayer and ComputerPlayer classes too
-  def prompt
-    puts "Pick a card, any card! (Row #, Column #)"
-    input = get_input.split(", ")
-    input.map!(&:to_i)
+  def initialize(board)
+    @board = board
   end
 
-  def get_input
-    #STDIN.gets.chomp
-    read_char
+  def get_move
+    while true
+      char = read_char
+
+      case char
+      when "\r"
+        return board.cursor
+      when "\e[A"
+        board.move_cursor(:up)
+      when "\e[B"
+        board.move_cursor(:down)
+      when "\e[C"
+        board.move_cursor(:right)
+      when "\e[D"
+        board.move_cursor(:left)
+      when "\u0003"
+        system("clear")
+        puts "Exiting..."
+        exit 0
+      end
+    end
   end
 
-    # Reads keypresses from the user including 2 and 3 escape character sequences.
+  private
+
+  attr_reader :board
+
   def read_char
     STDIN.echo = false
     STDIN.raw!
@@ -34,8 +47,4 @@ class Player
 
     return input
   end
-
-  # oringal case statement from:
-  # http://www.alecjacobson.com/weblog/?p=75
-
 end
