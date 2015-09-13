@@ -2,59 +2,20 @@ require 'colorize'
 require_relative 'card'
 
 class Board
-  attr_reader :size, :cursor, :num_to_match
+  attr_reader :size, :num_to_match
 
-  def initialize(size, num_to_match = 2)
+  def initialize(size, num_to_match)
     @size = size
     @num_to_match = num_to_match
-    @cursor = [0, 0]
     setup_board
   end
 
-  def show_card_at(position)
-    self[position].flip_card
-    render
-  end
-
-  def render
-    system('clear')
-    print "  \u2554\u2550".yellow
-    size.times { print "\u2550\u2550\u2550".yellow }
-    print "\u2550\u2557 ".yellow
-    puts
-    @grid.each_with_index do |line, row|
-      print "  \u2551 ".yellow
-      line.each_with_index do |card, col|
-        if cursor == [row, col]
-          print card.is_hidden? ? card.to_s.blue.on_green : card.to_s.red.on_green
-        else
-          print card.is_hidden? ? card.to_s.blue : card.to_s.red
-        end
-      end
-      print " \u2551 ".yellow
-      puts
-    end
-    print "  \u255A\u2550".yellow
-    size.times { print "\u2550\u2550\u2550".yellow }
-    print "\u2550\u255D ".yellow
-  end
-
-  def move_cursor(dir)
-    case dir
-    when :up
-      cursor[0] = (cursor[0] - 1) % size
-    when :down
-      cursor[0] = (cursor[0] + 1) % size
-    when :right
-      cursor[1] = (cursor[1] + 1) % size
-    when :left
-      cursor[1] = (cursor[1] - 1) % size
-    end
-    render
+  def flip_card!(position)
+    self[position].flip_card!
   end
 
   def won?
-    @grid.flatten.all? { |card| card.side == :up }
+    @grid.flatten.all?(&:revealed?)
   end
 
   def [](position)

@@ -1,16 +1,19 @@
 require_relative 'board'
+require_relative 'display'
 require_relative 'player'
 
 class Game
-  def initialize(size = 4, num_to_match = 2)
-    @board = Board.new(size, num_to_match)
-    @player = Player.new(board)
+  def initialize(difficulty = :easy)
+    settings = set_difficulty(difficulty)
+    @board = Board.new(*settings)
+    @display = Display.new(board)
+    @player = Player.new(display)
     @selections = []
   end
 
   def play
     until over?
-      board.render
+      display.render
       make_guess(player.get_move)
     end
     puts "YOU WON!"
@@ -18,16 +21,28 @@ class Game
 
   private
 
-  attr_reader :board, :player, :selections
+  attr_reader :display, :board, :player, :selections
+
+  def set_difficulty(difficulty)
+    case difficulty
+    when :hard
+      [9, 3]
+    when :medium
+      [8, 2]
+    else
+      [6, 2]
+    end
+  end
 
   def make_guess(position)
     current_selection = position.dup
 
     @selections << current_selection
     card = board[current_selection]
-    raise InvalidSelectionError unless card.is_hidden?
+    raise InvalidSelectionError unless card.hidden?
 
-    board.show_card_at(current_selection)
+    board.flip_card!(current_selection)
+    display.render
 
     if selections.length == board.num_to_match
       handle_no_match unless selections.all? { |pos| board[pos] == card }
@@ -37,7 +52,7 @@ class Game
 
   def handle_no_match
       sleep(0.5)
-      selections.each { |pos| board[pos].flip_card }
+      selections.each { |pos| board.flip_card!(pos) }
   end
 
   def deselect_cards
@@ -53,8 +68,12 @@ class InvalidSelectionError < StandardError
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # takes size and num_to_match as command line arguments
-  size = ARGV.empty? ? 4 : ARGV.shift.to_i
-  num_to_match = ARGV.empty? ? 2 : ARGV.shift.to_i
-  Game.new(size, num_to_match).play
+  # Allows command line argument for:
+  # difficulty: easy, medium, hard
+  if ARGV.empty?
+    Game.new.play
+  else
+    difficulty = ARGV.shift.to_sym
+    Game.new(difficulty).play
+  end
 end

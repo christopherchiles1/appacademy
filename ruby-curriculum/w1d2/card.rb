@@ -1,26 +1,34 @@
 class Card
-  attr_accessor :value, :side
 
   SYMBOLS = ('A'..'Z').to_a
+  attr_reader :value
 
   def initialize(val)
     @value = SYMBOLS[val]
     @side = :down
   end
 
-  def is_hidden?
+  def hidden?
     side == :down
   end
 
-  def flip_card
-    @side = is_hidden? ? :up : :down
+  def revealed?
+    side == :up
+  end
+
+  def flip_card!
+    @side = hidden? ? :up : :down
   end
 
   def to_s
-    is_hidden? ? " \u2573 " : " #{value} "
+    hidden? ? " \u2716 " : " #{value} "
   end
 
-  def ==(card)
-    self.value == card.value
+  def ==(other_card)
+    self.value == other_card.value
   end
+
+  private
+
+  attr_reader :side
 end

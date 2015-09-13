@@ -1,8 +1,8 @@
 require 'io/console'
 
 class Player
-  def initialize(board)
-    @board = board
+  def initialize(display)
+    @display = display
   end
 
   def get_move
@@ -11,15 +11,15 @@ class Player
 
       case char
       when "\r"
-        return board.cursor
+        return display.cursor
       when "\e[A"
-        board.move_cursor(:up)
+        display.move_cursor(:up)
       when "\e[B"
-        board.move_cursor(:down)
+        display.move_cursor(:down)
       when "\e[C"
-        board.move_cursor(:right)
+        display.move_cursor(:right)
       when "\e[D"
-        board.move_cursor(:left)
+        display.move_cursor(:left)
       when "\u0003"
         system("clear")
         puts "Exiting..."
@@ -30,7 +30,7 @@ class Player
 
   private
 
-  attr_reader :board
+  attr_reader :display
 
   def read_char
     STDIN.echo = false
