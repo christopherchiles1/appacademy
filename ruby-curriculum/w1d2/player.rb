@@ -5,7 +5,7 @@ class Player
     @display = display
   end
 
-  def get_move
+  def get_selection
     while true
       char = read_char
 
@@ -22,7 +22,7 @@ class Player
         display.move_cursor(:left)
       when "\u0003"
         system("clear")
-        puts "Exiting..."
+        display.render_game_over
         exit 0
       end
     end

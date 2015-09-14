@@ -2,12 +2,21 @@ require 'colorize'
 require_relative 'card'
 
 class Board
-  attr_reader :size, :num_to_match
+  attr_reader :size, :num_to_match, :selections
 
   def initialize(size, num_to_match)
     @size = size
     @num_to_match = num_to_match
+    @selections = []
     setup_board
+  end
+
+  def deselect_cards
+    @selections = []
+  end
+
+  def done_selecting?
+    selections.length == num_to_match
   end
 
   def flip_card!(position)
@@ -18,8 +27,12 @@ class Board
     @grid.flatten.all?(&:revealed?)
   end
 
+  def match?
+    selections.all? { |position| self[position] == self[selections.first] }
+  end
+
   def [](position)
-    row, col = *position
+    row, col = position
     @grid[row][col]
   end
 

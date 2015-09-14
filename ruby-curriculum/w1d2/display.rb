@@ -20,6 +20,11 @@ class Display
     render_border_bottom
   end
 
+  def render_game_won(num_rounds)
+    color = color_options[:title]
+    puts "You won in #{num_rounds} guesses!".send(color)
+  end
+
   def move_cursor(dir)
     case dir
     when :up
@@ -34,6 +39,14 @@ class Display
     render
   end
 
+  def render_game_over
+    color = color_options[:border]
+    render_title
+    puts ("\u2550" * 15).send(color)
+    puts "   GAME OVER   ".send(color_options[:title])
+    puts ("\u2550" * 15).send(color)
+  end
+
   private
 
   attr_reader :color_options, :board, :size
@@ -44,7 +57,8 @@ class Display
       border: :yellow,
       card_back: :blue,
       card_face: :red,
-      cursor: :green
+      cursor: :green,
+      selection: :yellow
     }
   end
 
@@ -54,7 +68,6 @@ class Display
     print "Match #{board.num_to_match} -- ".send(color)
     puts "#{board.size} x #{board.size} ".send(color)
   end
-
 
   def render_border_top
     color = color_options[:border]
@@ -69,6 +82,7 @@ class Display
     print "  \u255A\u2550".send(color)
     size.times { print "\u2550\u2550\u2550".send(color) }
     print "\u2550\u255D ".send(color)
+    puts
   end
 
   def render_border_left
@@ -86,13 +100,24 @@ class Display
     size.times do |col|
       position = [row, col]
       card = board[position]
-      cursor == position ? render_cursor(card) : render_card(card)
+      if cursor == position
+        render_cursor(card)
+      elsif board.selections.include?(position)
+        render_selection(card)
+      else
+        render_card(card)
+      end
     end
   end
 
   def render_cursor(card)
-    color = card.hidden? ? color_options[:card_back] : color_options[:card_face]
+    color = color_options[(card.hidden? ? :card_back : :card_face)]
     print card.to_s.send(color).colorize(background: color_options[:cursor])
+  end
+
+  def render_selection(card)
+    color = color_options[(card.hidden? ? :card_back : :card_face)]
+    print card.to_s.send(color).colorize(background: color_options[:selection])
   end
 
   def render_card(card)
