@@ -105,6 +105,5 @@ def populous_continents
       continent
     HAVING
       SUM(population) >= 100000000;
-
   SQL
 end

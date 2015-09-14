@@ -144,7 +144,6 @@ def prolific_actors
   # Obtain a list in alphabetical order of actors who've had at least 15
   # starring roles.
   execute(<<-SQL)
-
     SELECT
       actors.name
     FROM
@@ -159,8 +158,6 @@ def prolific_actors
       COUNT(castings.actor_id) >= 15
     ORDER BY
       actors.name ASC;
-
-
   SQL
 end
 
@@ -204,11 +201,5 @@ def colleagues_of_garfunkel
       WHERE
         actors.name = 'Art Garfunkel'
       );
-
-
-
-
-
-
   SQL
 end

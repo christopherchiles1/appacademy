@@ -188,9 +188,6 @@ def rock_superstars
       albums.artist, styles.style
     ORDER BY COUNT(albums.*) DESC
     LIMIT 1;
-
-
-
   SQL
 end
 
@@ -226,6 +223,5 @@ def expensive_tastes
     ORDER BY
       AVG(price_average) DESC
     LIMIT 5;
-
   SQL
 end
