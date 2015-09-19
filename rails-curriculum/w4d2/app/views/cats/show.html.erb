@@ -1,0 +1,31 @@
+<h1><%= @cat.name %></h1>
+
+<table>
+  <% @attributes.each do |key,value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+  <% end %>
+</table>
+<br>
+
+<h2>Requests</h2>
+<ul>
+  <% @requests.each do |request| %>
+    <li>
+      <% request.attributes.each do |key,value| %>
+        <%= key %>:
+        <%= value %>
+      <% end %>
+      <% if request.pending? %>
+        <%= button_to "Approve!", approve_cat_rental_request_url(request) %>
+        <%= button_to "Deny!", deny_cat_rental_request_url(request) %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+<br>
+
+<%= link_to "Edit #{@cat.name}", edit_cat_url(@cat) %><br>
+<%= link_to "Back to list", cats_url %>

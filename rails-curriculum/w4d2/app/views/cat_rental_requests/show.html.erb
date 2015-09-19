@@ -1,0 +1,14 @@
+<h1>Rental for <%= @cat.name %>!</h1>
+
+<table>
+  <% @attributes.each do |key,value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+  <% end %>
+</table>
+<br>
+
+<%= link_to "Go to #{@cat.name}", cat_url(@cat) %><br>
+<%= link_to "Back to cat list", cats_url %>

@@ -1,0 +1,17 @@
+<h1> Sign Up! </h1>
+
+Already awesome? <%= link_to("Log in!", new_session_url)  %>
+
+<form action="<%= users_url %>" method="post">
+  <%= auth %>
+  <label>
+    Username
+    <input type="text" name="user[username]" value="<%=@user.username%>">
+  </label>
+
+  <label for="Password">Password</label>
+    <input type="password" name="user[password]" id="Password" value="">
+
+    <input type="submit" value="Sign up!">
+
+</form>
