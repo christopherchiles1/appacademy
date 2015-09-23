@@ -11,12 +11,17 @@ module Phase5
     # You haven't done routing yet; but assume route params will be
     # passed in as a hash to `Params.new` as below:
     def initialize(req, route_params = {})
+      quote_params = {}
       if req.query_string
-        query_params = parse_www_encoded_form(req.query_string)
-      else
-        query_params = {}
+        quote_params = parse_www_encoded_form(req.query_string)
       end
-      @params = query_params.merge(route_params)
+      post_params = {}
+      if req.body
+        post_params = parse_www_encoded_form(req.body)
+      end
+      @params = quote_params
+                  .merge(post_params)
+                  .merge(route_params)
     end
 
     def [](key)
@@ -28,7 +33,8 @@ module Phase5
       @params.to_s
     end
 
-    class AttributeNotFoundError < ArgumentError; end;
+    class AttributeNotFoundError < ArgumentError
+    end
 
     private
     # this should return deeply nested hash
@@ -37,36 +43,40 @@ module Phase5
     # should return
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
-      query_params = {}
-      query_items = URI::decode_www_form(www_encoded_form)
-
-      # key_groups = query_items.map { |item| parse_key(item[0]) }
-      # vals = query_items.map { |item| item[1] }
-      # # now we have keygroups => vals
-      query_params = {}
-      query_items.each do |item|
-        sub_hash = query_params
-        sub_keys = parse_key(item[0])
-        sub_keys[0...-1].each_with_index do |sub_key|
-          unless sub_hash.include?(sub_key)
-            sub_hash[sub_key] = {}
-          end
-          sub_hash = sub_hash[sub_key]
-        end
-        sub_hash[sub_keys.last] = item[1]
-      end
-      query_params
+      hash_pairs = parse_hash_pairs(www_encoded_form)
+      create_hash_from_hash_pairs(hash_pairs)
     end
 
-    # this should return an array
-    # user[address][street] should return ['user', 'address', 'street']
+    def parse_hash_pairs(www_encoded_form)
+      URI::decode_www_form(www_encoded_form)
+    end
+
     def parse_key(key)
       key.split(/\]\[|\[|\]/)
     end
 
-    def
+    def create_hash_from_hash_pairs(hash_pairs)
+      result = {}
+      hash_pairs.each do |hash_pair|
+        denestify_hash_pair_into_hash!(hash_pair, result)
+      end
+      result
+    end
 
-## Recursive hash merging required (think about deep-merge later)
+    def denestify_hash_pair_into_hash!(hash_pair, hash)
+      key, val = hash_pair
+      key_list = parse_key(key)
+      sub_hash = hash # start at top of hash
+      last_key = key_list.pop
+      key_list.each do |key|
+        sub_hash[key] = {} unless sub_hash.include?(key)
+        sub_hash = sub_hash[key] # go deeper into hash
+      end
+      sub_hash[last_key] = val # set value at the bottom of hash
+      hash
+    end
+
+    ## Recursive hash merging required (think about deep-merge later)
     # def nestify(keys, val)
     #   if keys.length == 1
     #     return { keys.first => val }
@@ -74,6 +84,5 @@ module Phase5
     #     { keys.first => nestify(keys.drop(1), val) }
     #   end
     # end
-
   end
 end
