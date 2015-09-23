@@ -20,7 +20,7 @@ module Phase6
     def run(req, res)
       matches = pattern.match(req.path)
       route_params = {}
-      matches.names.each do |params, name|
+      matches.names.each do |name|
         route_params[name] = matches[name]
       end
       controller_class.new(req, res, route_params).invoke_action(action_name)
