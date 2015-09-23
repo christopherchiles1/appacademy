@@ -25,13 +25,13 @@ class StatusesController < Phase6::ControllerBase
       s[:cat_id] == Integer(params[:cat_id])
     end
 
-    render_content(statuses.to_s, "text/text")
+    render_content(JSON.generate(statuses), "text/text")
   end
 end
 
 class Cats2Controller < Phase6::ControllerBase
   def index
-    render_content($cats.to_s, "text/text")
+    render_content(JSON.generate($cats), "text/text")
   end
 end
 
