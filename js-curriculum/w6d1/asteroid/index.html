@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Asteroid!!!</title>
+  </head>
+
+  <h1>ASTEROID THE GAME OF CHAMPIONS</h1>
+
+  <body>
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+
+    <script src="keymaster.js"></script>
+    <script src="lib/util.js"></script>
+    <script src="lib/movingObject.js"></script>
+    <script src="lib/bullet.js"></script>
+    <script src="lib/ship.js"></script>
+    <script src="lib/asteroid.js"></script>
+    <script src="lib/game.js"></script>
+    <script src="lib/gameView.js"></script>
+
+    <script type="text/javascript">
+      var canvas = document.getElementById('game-canvas');
+      var ctx = canvas.getContext("2d");
+      new Asteroids.gameView(new Asteroids.Game(), ctx).start();
+
+    </script>
+  </body>
+</html>
