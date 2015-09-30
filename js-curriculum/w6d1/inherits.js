@@ -6,7 +6,6 @@ Function.prototype.inherits = function(parent) {
   child.prototype.constructor = child;
 };
 
-
 function MovingObject (position, speed) {
   this.position = position;
   this.speed = speed;
