@@ -1,0 +1,48 @@
+/* Reset Stuff */
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Styling */
+#container {
+  position: relative;
+  margin: 50px auto;
+  width: 720px;
+}
+
+#container > ul {
+  position: relative;
+  float: left;
+  border-bottom: 8px solid black;
+  border-radius: 0 0 5px 5px;
+  margin: 20px;
+  width: 200px;
+}
+
+#container > ul:hover {
+  border-color: red;
+}
+#container li {
+  height: 40px;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+#container li.disc {
+  background-color: #aaa;
+  margin: 10px auto;
+}
+
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.title {
+  margin: 5px auto;
+  text-align: center;
+  width: 400px;
+}
