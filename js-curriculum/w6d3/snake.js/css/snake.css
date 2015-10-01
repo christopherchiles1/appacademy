@@ -1,0 +1,33 @@
+h1 {
+  font: sans-serif;
+  color: darkblue;
+  text-align: center;
+}
+
+#container {
+  background-color: forestgreen;
+  border: 5px solid black;
+  border-radius: 5px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+#container > .tile {
+  float: left;
+  width: 10px;
+  height: 10px;
+}
+
+#container > .apple {
+  background-color: darkred;
+}
+
+#container > .snake {
+  background-color: darkgreen;
+}
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}

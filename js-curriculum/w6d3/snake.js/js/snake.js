@@ -1,12 +1,14 @@
 (function () {
   if (typeof window.SnakeGame === "undefined") {
-    var SnakeGame = window.SnakeGame = {};
+    window.SnakeGame = {};
   }
 
-  var Snake = window.SnakeGame.Snake = function (dir, segments) {
-    this.dir = dir || "E";
-    this.segments = segments || this.defaultSegments();
+  var Snake = window.SnakeGame.Snake = function () {
+    this.dir = Snake.DIRS[0];
+    this.segments = this.defaultSegments();
   };
+
+  Snake.DIRS = ["E", "S", "W", "N"];
 
   Snake.prototype.move = function(){
     this.segments.shift();
@@ -20,5 +22,13 @@
 
   Snake.prototype.defaultSegments = function () {
     return [[25, 25], [25, 26]];
+  };
+
+  Snake.prototype.head = function () {
+    this.segments[this.segments.length - 1];
+  };
+
+  Snake.prototype.tail = function () {
+    this.segments[0];
   };
 })();

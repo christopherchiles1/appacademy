@@ -1,14 +1,38 @@
 (function () {
   if (typeof window.SnakeGame === "undefined") {
-    var SnakeGame = window.SnakeGame = {};
+    window.SnakeGame = {};
   }
 
   var SnakeView = window.SnakeGame.SnakeView = function ($el) {
-    this.board = new SnakeGame.Board();
     this.$el = $el;
+    this.board = new window.SnakeGame.Board();
+    this.setupBoard();
+    this.bindEvents();
   };
 
-  SnakeView.prototype.bindHandlers = function () {
+  SnakeView.prototype.start = function () {
+    setInterval(this.render, 1000 / 12);
+  };
+
+  SnakeView.prototype.render = function () {
+    var oldTailCoord = this.snake.tail();
+    this.board.step();
+    var newHeadCoord = this.snake.head();
+    // TODO: removeClass snake on oldTail and add it on newHead
+  }
+
+  SnakeView.prototype.setupBoard = function () {
+    for (var i = 0; i < window.SnakeGame.Board.SIZE; i++) {
+      for (var j = 0; j < window.SnakeGame.Board.SIZE; j++) {
+        $tile = $("<div>").addClass("tile");
+        $tile.data("coord", [i, j]);
+        this.$el.append($tile);
+      }
+    }
+    // TODO: run through snake segments and update board
+  };
+
+  SnakeView.prototype.bindEvents = function () {
     this.$el.on("keydown", this.handleKeyEvent(event) );
   };
 
