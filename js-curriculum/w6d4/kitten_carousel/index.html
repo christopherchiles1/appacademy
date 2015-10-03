@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Back to Corgi-Central</title>
+    <script src="./jquery-2.1.1.js"></script>
+    <script src="./kitten.js"></script>
+    <link href="./kitten.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+    <figure class="carousel">
+      <ul class="items">
+        <li><img src="./imgs/index.jpeg" alt="firstcorg" /></li>
+        <li><img src="./imgs/corg2.jpeg" alt="secondcorg" /></li>
+        <li><img src="./imgs/corg3.jpeg" alt="third" /></li>
+        <li><img src="./imgs/corg4.jpeg" alt="fourth" /></li>
+      </ul>
+
+      <button class="slide-right">Prev</button>
+      <button class="slide-left">Next</button>
+    </figure>
+
+    <script>
+      $(function() {
+        $('.carousel').carousel();
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Riding the Majestic Corgi to jQuery Bliss</title>
+    <script src="./jquery-2.1.1.js"></script>
+    <script src="./tabs.js"></script>
+    <link href="./tabs.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+    <ul class='tabs group' data-content-tabs="#dog-content">
+      <li><a href="#pharaoh-hound">pharaoh-hound</a></li>
+      <li><a href="#german-shepherd">german-shepherd</a></li>
+      <li><a href="#lab">lab</a></li>
+    </ul>
+    <section class="content-tabs" id="dog-content">
+      <article id="pharaoh-hound">
+        <p>
+          These giant eared skinny creatures are reminiscent of
+           jackals and the egyptian god Anubis. The name is a misnomer
+           as they are actually from the island of Malta.
+        </p>
+      </article>
+      <article id="german-shepherd">
+        <p>
+          These dogs are awesome and have fur on them.
+        </p>
+      </article>
+      <article id="lab">
+        <p>
+          A classic dog breed, of the golden or chocolate variety.
+        </p>
+      </article>
+    </section>
+
+    <script>
+      $(function() {
+        $('.tabs').tabs();
+      })
+    </script>
+  </body>
+</html>
