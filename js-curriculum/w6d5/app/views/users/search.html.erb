@@ -1,0 +1,25 @@
+<h1>Search!</h1>
+
+<div class="users-search">
+  <input
+    type="text"
+    class="query"
+    name="query">
+
+    <ul class="users">
+    </ul>
+</div>
+
+<script type="text/template" class="users-template">
+  <%% results.forEach(function(res) { %>
+    <%% initial_follow_state = res.followed ? ("followed") : ("unfollowed") %>
+    <li>
+      <a href="<%%=res.id%>"><%%= res.username %></a>
+      <button
+        class="follow-toggle"
+        data-user-id="<%%= res.id %>"
+        data-initial-follow-state = "<%%= initial_follow_state %>">
+      </button>
+    </li>
+  <%% }) %>
+</script>

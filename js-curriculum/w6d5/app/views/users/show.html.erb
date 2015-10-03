@@ -1,0 +1,31 @@
+<h1><%= @user.username %></h1>
+
+<%= render "follows/form", user: @user %>
+
+<b>Tweets</b>
+<ul id="feed">
+  <% @user.tweets.each do |tweet| %>
+    <li><%= render "tweets/tweet", tweet: tweet %></li>
+  <% end %>
+</ul>
+
+<b>Followers</b>
+<ul>
+  <% @user.followers.each do |follower| %>
+    <li><%= follower.username %></li>
+  <% end %>
+</ul>
+
+<b>Followees</b>
+<ul>
+  <% @user.followees.each do |followee| %>
+    <li><%= followee.username %></li>
+  <% end %>
+</ul>
+
+<script type="text/template" class="new-tweet">
+  <li><%% result.content %> --
+    <a href="<%% result.id %>"><%% result.user %></a> --
+    <!-- working on template for tweetCompose -->
+  </li>
+</script>
