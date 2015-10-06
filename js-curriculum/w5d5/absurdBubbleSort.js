@@ -4,7 +4,6 @@ var reader = readline.createInterface({
   output: process.stdout
 });
 
-
 var absurdBubbleSort = function(arr, sortCompletetionCallBack) {
   var outerBubbleSortLoop = function(madeAnySwaps) {
     if (madeAnySwaps) {

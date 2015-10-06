@@ -39,7 +39,7 @@ Board.DIRS = [
 */
 Board.prototype.getPiece = function (pos) {
   if ((pos[0] > 7 || pos[0] < 0) || (pos[1] > 7 || pos[1] < 0)) {
-    return RangeError("You done fucked up");
+    return RangeError("Peice out of range");
   }
   return this.grid[pos[0]][pos[1]];
 };

@@ -3,6 +3,7 @@
     window.Asteroids = {};
   }
 
+  // TODO: Add image/size variety to Asteroids
   var Asteroid = window.Asteroids.Asteroid = function (opts) {
     var attributes = {
       pos: opts['pos'],
@@ -12,13 +13,14 @@
       vel: window.Asteroids.Util.randomVec(2)
     };
 
+  Asteroid.COLOR = 'red';
+  Asteroid.RADIUS = 25;
+  
     window.Asteroids.movingObject.call(this, attributes);
   };
 
   window.Asteroids.Util.inherits(Asteroid, window.Asteroids.movingObject);
 
-  Asteroid.COLOR = 'red';
-  Asteroid.RADIUS = 25;
 
   Asteroid.prototype.collideWith = function (otherObject) {
     if (otherObject instanceof window.Asteroids.Ship) {

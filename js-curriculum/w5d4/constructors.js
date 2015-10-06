@@ -1,24 +1,27 @@
 var Cat = function(name, owner) {
-  this.catName = name;
+  this.name = name;
   this.owner = owner;
 };
 
-
 Cat.prototype = {
-  meow: function(){return "Meoooowwwwww";},
-  cuteStatement: function() {return (this.owner + ' loves ' + this.catName);}
+  meow: function () { return "Meoooowwwwww"; },
+  cuteStatement: function () { return this.owner + ' loves ' + this.name; }
 };
-var kittyCat = new Cat("Snow White","Sr. Edward Wang");
-var kitCat = new Cat("Telly Tubby", "DwightWare");
 
-console.log(kittyCat.cuteStatement());
-console.log(kitCat.cuteStatement());
+// Testing the Cat constructor and prototype
+var cat1 = new Cat("Fluffy","Melissa");
+var cat2 = new Cat("Marcus", "Edmund");
 
-console.log(kittyCat.meow());
-console.log(kitCat.meow());
+console.log(cat1.cuteStatement());
+console.log(cat1.meow());
 
-kitCat.meow = function() {
+console.log(cat2.cuteStatement());
+console.log(cat2.meow());
+
+// Overwrites the previous meow function for cat2
+cat2.meow = function() {
   return "Meow Meow";
 };
 
-console.log(kitCat.meow());
+console.log(cat1.meow());
+console.log(cat2.meow());
