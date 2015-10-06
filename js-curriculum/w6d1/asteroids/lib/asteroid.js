@@ -1,32 +1,34 @@
-(function () {
-  if (typeof Asteroids === 'undefined') {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === 'undefined') {
+    root.Asteroids = {};
   }
 
+  var Asteroids = root.Asteroids;
+
   // TODO: Add image/size variety to Asteroids
-  var Asteroid = window.Asteroids.Asteroid = function (opts) {
+  var Asteroid = Asteroids.Asteroid = function (opts) {
     var attributes = {
       pos: opts['pos'],
       game: opts['game'],
       color: Asteroid.COLOR,
       radius: Asteroid.RADIUS,
-      vel: window.Asteroids.Util.randomVec(2)
+      vel: Asteroids.Util.randomVec(2)
     };
 
   Asteroid.COLOR = 'red';
   Asteroid.RADIUS = 25;
-  
-    window.Asteroids.movingObject.call(this, attributes);
+
+    Asteroids.MovingObject.call(this, attributes);
   };
 
-  window.Asteroids.Util.inherits(Asteroid, window.Asteroids.movingObject);
+  Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);
 
 
   Asteroid.prototype.collideWith = function (otherObject) {
-    if (otherObject instanceof window.Asteroids.Ship) {
+    if (otherObject instanceof Asteroids.Ship) {
       otherObject.relocate();
     }
   };
 
 
-})();
+})(this);

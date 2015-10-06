@@ -1,9 +1,11 @@
-(function () {
-  if (typeof Asteroids === 'undefined') {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === 'undefined') {
+    root.Asteroids = {};
   }
 
-  var movingObject = window.Asteroids.movingObject = function (opts) {
+  var Asteroids = root.Asteroids;
+
+  var MovingObject = Asteroids.MovingObject = function (opts) {
     this.pos = opts['pos'];
     this.vel = opts['vel'];
     this.radius = opts['radius'];
@@ -11,7 +13,7 @@
     this.game = opts['game'];
   };
 
-  movingObject.prototype.draw = function(ctx) {
+  MovingObject.prototype.draw = function(ctx) {
     ctx.fillStyle = this.color;
     ctx.strokeStyle = 'black';
     ctx.beginPath();
@@ -29,18 +31,18 @@
     ctx.stroke();
   };
 
-  movingObject.prototype.move = function() {
+  MovingObject.prototype.move = function() {
     this.pos[0] += this.vel[0];
     this.pos[1] += this.vel[1];
     this.pos = this.game.wrap(this.pos);
   };
 
-  movingObject.prototype.isCollidedWith = function (otherObject) {
-    var dist = window.Asteroids.Util.distance(this.pos, otherObject.pos);
+  MovingObject.prototype.isCollidedWith = function (otherObject) {
+    var dist = Asteroids.Util.distance(this.pos, otherObject.pos);
     return (dist < (this.radius + otherObject.radius));
   };
 
-  movingObject.prototype.collideWith = function (otherObject) {
-    
+  MovingObject.prototype.collideWith = function (otherObject) {
+
   };
-})();
+})(this);

@@ -1,9 +1,11 @@
-(function () {
-  if (typeof Asteroids === "undefined") {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === "undefined") {
+    root.Asteroids = {};
   }
 
-  var Bullet = window.Asteroids.Bullet = function (opts) {
+  var Asteroids = root.Asteroids;
+
+  var Bullet = Asteroids.Bullet = function (opts) {
     var attributes = {
       game: opts['game'],
       pos: opts['pos'],
@@ -12,19 +14,19 @@
       color: Bullet.COLOR
     };
 
-    window.Asteroids.movingObject.call(this, attributes);
+    Asteroids.MovingObject.call(this, attributes);
   };
 
-  window.Asteroids.Util.inherits(Bullet, window.Asteroids.movingObject);
+  Asteroids.Util.inherits(Bullet, Asteroids.MovingObject);
 
   Bullet.RADIUS = 8;
   Bullet.COLOR = 'magenta';
 
   Bullet.prototype.collideWith = function (otherObject) {
-    if (otherObject instanceof window.Asteroids.Asteroid) {
+    if (otherObject instanceof Asteroids.Asteroid) {
       this.game.remove(otherObject);
       this.game.remove(this);
     }
   };
 
-})();
+})(this);

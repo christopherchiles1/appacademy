@@ -1,9 +1,10 @@
-(function () {
-  if (typeof Asteroids === 'undefined') {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === 'undefined') {
+    root.Asteroids = {};
   }
+  var Asteroids = root.Asteroids;
 
-  var Util = window.Asteroids.Util = {};
+  var Util = Asteroids.Util = {};
 
   Util.inherits = function (child, parent) {
     function Surrogate () {}
@@ -24,4 +25,4 @@
     return Math.sqrt((pos2[0] - pos1[0])*(pos2[0] - pos1[0]) +
     (pos2[1] - pos1[1])*(pos2[1] - pos1[1]));
   };
-})();
+})(this);

@@ -1,20 +1,22 @@
-(function () {
-  if (typeof Asteroids === 'undefined') {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === 'undefined') {
+    root.Asteroids = {};
   }
 
-  var gameView = window.Asteroids.gameView =  function () {
-    this.game = new window.Asteroids.Game();
+  var Asteroids = root.Asteroids;
+
+  var GameView = Asteroids.GameView =  function () {
+    this.game = new Asteroids.Game();
   };
 
-  gameView.prototype.start = function (canvas) {
+  GameView.prototype.start = function (canvas) {
     var ctx = canvas.getContext("2d");
     setInterval(this.game.draw.bind(this.game, ctx), 1000 / 60);
     setInterval(this.game.step.bind(this.game), 1000 / 60);
     this.bindKeyHandlers();
   };
 
-  gameView.prototype.bindKeyHandlers = function () {
+  GameView.prototype.bindKeyHandlers = function () {
     window.key('up', function() {
         this.game.ship.power([0, -1]);
       }.bind(this));
@@ -31,4 +33,4 @@
       this.game.ship.fireBullet();
     }.bind(this));
   };
-})();
+})(this);

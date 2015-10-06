@@ -1,13 +1,15 @@
-(function () {
-  if (typeof Asteroids === "undefined") {
-    window.Asteroids = {};
+(function (root) {
+  if (typeof root.Asteroids === "undefined") {
+    root.Asteroids = {};
   }
 
-  var Game = window.Asteroids.Game = function () {
+  var Asteroids = root.Asteroids;
+
+  var Game = Asteroids.Game = function () {
     this.asteroids = [];
     this.bullets = [];
     this.addAsteroids();
-    this.ship = new window.Asteroids.Ship(
+    this.ship = new Asteroids.Ship(
       {
         pos: Game.randomPosition(),
         game: this
@@ -21,7 +23,7 @@
 
   Game.prototype.addAsteroids = function () {
     while (this.asteroids.length < Game.NUM_ASTEROIDS) {
-      this.asteroids.push(new window.Asteroids.Asteroid(
+      this.asteroids.push(new Asteroids.Asteroid(
         {
           pos: Game.randomPosition(),
           game: this
@@ -74,9 +76,9 @@
   };
 
   Game.prototype.remove = function (obj) {
-    if (obj instanceof window.Asteroids.Asteroid) {
+    if (obj instanceof Asteroids.Asteroid) {
       this.asteroids.splice(this.asteroids.indexOf(obj), 1);
-    } else if (obj instanceof window.Asteroids.Bullet) {
+    } else if (obj instanceof Asteroids.Bullet) {
       this.bullets.splice(this.bullets.indexOf(obj), 1);
     }
   };
@@ -85,4 +87,4 @@
     return this.bullets.concat(this.asteroids.concat([this.ship]));
   };
 
-})();
+})(this);
