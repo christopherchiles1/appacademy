@@ -15,8 +15,24 @@
       this.map = new root.google.maps.Map(map, mapOptions);
     },
 
+    _onMapIdle: function () {
+      var mapBounds = this.map.getBounds();
+      var ne = mapBounds.getNorthEast();
+      var sw = mapBounds.getSouthWest();
+      var bounds = {
+          northEast: { lat: ne.lat(), lng: ne.lng()},
+          southWest: { lat: sw.lat(), lng: sw.lng() }
+      };
+      BenchBnBApp.ApiUtil.fetchBenches({ bounds: bounds });
+    },
+
+    _setMapIdleHandler: function () {
+      this.map.addListener('idle', this._onMapIdle);
+    },
+
     _updateBenches: function () {
       var benches = BenchBnBApp.BenchStore.all();
+      console.log(benches);
       // Add markers to Map may need to be an ivar
       var markers = benches.map(function (bench) {
         return (
@@ -31,7 +47,7 @@
 
     componentDidMount: function(){
       this._createMap();
-      this.map.addListener('idle', BenchBnBApp.ApiUtil.fetchBenches);
+      this._setMapIdleHandler();
       BenchBnBApp.BenchStore.addChangeListener(this._updateBenches);
     },
 

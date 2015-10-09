@@ -12,7 +12,7 @@
 
     componentDidMount: function () {
       BenchBnBApp.BenchStore.addChangeListener(this._updateBenches);
-      BenchBnBApp.ApiUtil.fetchBenches();
+      // BenchBnBApp.ApiUtil.fetchBenches(); // FIXME: Fetch benches by bounds?
     },
 
     _updateBenches: function () {
