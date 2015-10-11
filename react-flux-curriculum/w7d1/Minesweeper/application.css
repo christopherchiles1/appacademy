@@ -1,0 +1,30 @@
+.board-tiles {
+  width: 200px;
+  height: 200px;
+}
+
+.board-tiles:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.tile {
+  width: 18px;
+  height: 18px;
+  background-color: #eee;
+  border: 1px solid #aaa;
+  float: left;
+}
+
+.tile.flagged {
+  background-color: green;
+}
+
+.tile.explored {
+  background-color: yellow;
+}
+
+.tile:hover {
+  background-color: aquamarine;
+}
