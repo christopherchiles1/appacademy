@@ -6,17 +6,41 @@
   var BenchBnBApp = root.BenchBnBApp;
 
   BenchBnBApp.Map = React.createClass({
-    getInitialState: function () {
-      this._createMap();
-      this.markers = [];
-      this.benchIds = [];
-    },
-
     componentDidMount: function(){
+      this.benches = [];
+      this.markers = [];
+      this._createMap();
       this._setMapIdleHandler();
       BenchBnBApp.BenchStore.addChangeListener(this._updateBenches);
     },
 
+    _updateBenches: function () {
+      // grab a copy of the old benches
+      var oldBenches = this.benches.slice();
+      // get the new benches from the Store
+      this.benches = BenchBnBApp.BenchStore.all();
+
+      var newBenches = _benchDiff(this.benches, oldBenches);
+      var trashBenches = _benchDiff(oldBenches, this.benches);
+
+      // Add the new markers
+      newBenches.forEach(function (bench) {
+        this._addMarker(bench);
+      }.bind(this));
+
+      // Remove the old markers
+      trashBenches.forEach(function (bench) {
+        this._removeMarker(bench);
+      }.bind(this));
+    },
+
+    render: function () {
+      return (
+        <div className="map" ref="map"></div>
+      );
+    },
+
+    // Google Maps Handling
     _createMap: function () {
       var map = React.findDOMNode(this.refs.map);
       var mapOptions = {
@@ -41,59 +65,37 @@
       BenchBnBApp.ApiUtil.fetchBenches({ bounds: bounds });
     },
 
-    _updateBenches: function () {
-      var benches = BenchBnBApp.BenchStore.all();
-
-      var markers = [];
-      _addedBenches.forEach(function (bench) {
-        _addMarker(bench);
-      });
-      _removedBenches.forEach(function (bench) {
-        _removeMarker(bench);
-      });
-
-      this.oldBenches = benches;
-    },
-
-    _addedBenches: function (oldList, newList) {
-      var added = newList.filter(function (bench) {
-        var included = false;
-        oldList.forEach(function (oldBench) {
-          if (bench.id === oldBench.id) {
-            included = true;
-          }
-        });
-        return !included;
-      });
-      console.log(added);
-    },
-
-    _removedBenches: function (oldList, newList) {
-      // TODO: Get marker filtering to work!!!
-    },
-
     _addMarker: function (bench) {
       var marker = new root.google.maps.Marker({
         position: {lat: bench.lat, lng: bench.lon},
         map: this.map,
         title: 'Hello World!' // TODO: change this
       });
-      this.markers.push([board.id, marker]);
+      this.markers.push([bench.id, marker]);
     },
 
-    _removeMarker: function (board) {
+    _removeMarker: function (bench) {
       var marker = this.markers.find(function (marker) {
-        return marker[0] === board.id;
+        return (marker[0] === bench.id);
       });
-      var idx = this.markers.indexOf(marker);
-      this.markers.slice(idx, 1);
-      marker.setMap(null);
-    },
 
-    render: function () {
-      return (
-        <div className="map" ref="map"></div>
-      );
+      var idx = this.markers.indexOf(marker);
+      marker[1].setMap(null);
+      this.markers.slice(idx, 1);
     }
   });
+
+  // benchDiff returns all benches in benches1 that arent in benches2
+  function _benchDiff(benches1, benches2) {
+    var diff = benches1.filter(function (item1) {
+      var included = false;
+      benches2.forEach(function (item2) {
+        if (item1.id === item2.id) {
+          included = true;
+        }
+      });
+      return !included;
+    });
+    return diff;
+  }
 })(this);
