@@ -3,20 +3,24 @@ header {
 }
 
 .search {
-  width: auto;
+  width: 1000px;
   position: relative;
+  margin: 0 auto;
+  border: 3px solid darkgoldenrod;
 }
 
-.group {
+.group:after {
   content: "";
   display: block;
   clear: both;
 }
 
 .index {
-  width: 250px;
+  width: 496px;
+  height: 496px;
   float: left;
   border: 2px solid cornflowerblue;
+  overflow: scroll;
 }
 
 .indexItem {

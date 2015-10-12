@@ -24,7 +24,9 @@
         items = <div className="indexItem">Nothing to see here...</div>;
       } else {
         items = this.state.benches.map(function (bench) {
-          return <BenchBnBApp.IndexItem bench={bench} />;
+          return <BenchBnBApp.IndexItem
+            key={bench.id}
+            bench={bench} />;
         });
       }
       return (

@@ -81,7 +81,7 @@
 
       var idx = this.markers.indexOf(marker);
       marker[1].setMap(null);
-      this.markers.slice(idx, 1);
+      this.markers.splice(idx, 1);
     }
   });
 
