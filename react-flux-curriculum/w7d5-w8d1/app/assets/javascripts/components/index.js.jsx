@@ -12,7 +12,6 @@
 
     componentDidMount: function () {
       BenchBnBApp.BenchStore.addChangeListener(this._updateBenches);
-      // BenchBnBApp.ApiUtil.fetchBenches(); // FIXME: Fetch benches by bounds?
     },
 
     _updateBenches: function () {
@@ -20,9 +19,20 @@
     },
 
     render: function () {
+      var items;
+      if (this.state.benches.length === 0) {
+        items = <div className="indexItem">Nothing to see here...</div>;
+      } else {
+        items = this.state.benches.map(function (bench) {
+          return <BenchBnBApp.IndexItem bench={bench} />;
+        });
+      }
       return (
-        // NOTE: Change this Rendering!!!
-        <div>{this.state.benches.toString()}</div>
+        <div className="index">
+          {
+            items
+          }
+        </div>
       );
     }
   });

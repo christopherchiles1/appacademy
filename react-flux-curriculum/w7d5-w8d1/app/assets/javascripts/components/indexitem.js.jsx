@@ -5,12 +5,13 @@
   }
   var BenchBnBApp = root.BenchBnBApp;
 
-  BenchBnBApp.Search = React.createClass({
+  BenchBnBApp.IndexItem = React.createClass({
     render: function () {
       return (
-        <div className="search group">
-          <BenchBnBApp.Map />
-          <BenchBnBApp.Index />
+        <div className="indexItem">
+          {
+            this.props.bench.description
+          }
         </div>
       );
     }

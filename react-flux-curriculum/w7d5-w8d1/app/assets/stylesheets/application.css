@@ -1,9 +1,33 @@
+.header {
+  text-align: center;
+}
+
+.search {
+  width: auto;
+  position: relative;
+}
+
+.group {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.index {
+  width: 250px;
+  float: left;
+  border: 2px solid cornflowerblue;
+}
+
+.indexItem {
+  display: block;
+  border: 1px solid forestgreen;
+  background-color: lightgrey;
+}
+
 .map {
   width: 500px;
   height: 500px;
   margin: 0 auto;
-}
-
-.header {
-  text-align: center;
+  float: left;
 }
