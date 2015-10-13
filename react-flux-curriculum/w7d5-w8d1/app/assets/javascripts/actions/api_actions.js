@@ -11,6 +11,12 @@
         actionType: BenchBnBApp.BenchConstants.BENCHES_RECEIVED,
         benches: benches
       });
+    },
+    receiveSingle: function (bench) {
+      BenchBnBApp.AppDispatcher.dispatch({
+        actionType: BenchBnBApp.BenchConstants.BENCH_RECEIVED,
+        bench: bench
+      });
     }
   };
 }(this));

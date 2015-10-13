@@ -10,6 +10,17 @@
     _benches = benches;
   };
 
+  var _updateBench = function (newBench) {
+    var bench = _benches.find(function (b) {
+      return b.id === bench.id;
+    });
+    if (bench) {
+      _benches.splice(_benches.indexOf(bench), 1, newBench);
+    } else {
+      _benches.push(bench);
+    }
+  };
+
   var CHANGE_EVENT = "CHANGE_EVENT";
 
   BenchBnBApp.BenchStore = $.extend({}, EventEmitter.prototype, {
@@ -24,9 +35,15 @@
       this.removeListener(CHANGE_EVENT, callback);
     },
     dispatcherId: BenchBnBApp.AppDispatcher.register(function (payload) {
-      if (payload.actionType === BenchBnBApp.BenchConstants.BENCHES_RECEIVED) {
-        _resetBenches(payload.benches);
-        BenchBnBApp.BenchStore.emit(CHANGE_EVENT);
+      switch (payload.actionType) {
+        case BenchBnBApp.BenchConstants.BENCHES_RECEIVED:
+          _resetBenches(payload.benches);
+          BenchBnBApp.BenchStore.emit(CHANGE_EVENT);
+          break;
+        case BenchBnBApp.BenchConstants.BENCH_RECEIVED:
+          _updateBench(payload.bench);
+          BenchBnBApp.BenchStore.emit(CHANGE_EVENT);
+          break;
       }
     })
   });

@@ -8,8 +8,8 @@
   BenchBnBApp.BenchForm = React.createClass({
     getInitialState: function () {
       return {
-        lat: 0,
-        lon: 0,
+        lat: undefined,
+        lon: undefined,
         description: ""
       };
     },
@@ -28,7 +28,13 @@
 
     handleSubmit: function (e) {
       e.preventDefault();
-      // Send the bench to API utils
+      var bench = {
+        lat: this.state.lat,
+        lon: this.state.lon, 
+        seating: 5,
+        description: this.state.description
+      };
+      BenchBnBApp.ApiUtil.createBench(bench);
     },
 
     render: function () {
@@ -47,7 +53,7 @@
               onChange={this.updateDescription}
               value={this.state.description}></input>
             <br/>
-          <button>Add Bench</button>
+          <input type="submit" value="Add Bench"></input>
         </form>
       );
     }
