@@ -17,6 +17,9 @@ $(function() {
   var routes = (
     <Route path="/" component={App}>
       <IndexRoute component={BenchBnBApp.Search}/>
+      <Route
+        path="benches/new"
+        component={{search: BenchBnBApp.Search, form: BenchBnBApp.BenchForm}}/>
     </Route>
   );
 

@@ -33,22 +33,20 @@
 
     render: function () {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <label>Latitude:
+        <form className="bench-form" onSubmit={this.handleSubmit}>
+          <label>Latitude: </label>
             <input
               onChange={this.updateLatitude}
               value={this.state.lat}></input>
-          </label>
-          <label>Longitude:
+          <label>Longitude: </label>
             <input
               onChange={this.updateLongitude}
               value={this.state.lon}></input>
-          </label>
-          <label>Description:
+          <label>Description: </label>
             <input
               onChange={this.updateDescription}
               value={this.state.description}></input>
-          </label>
+            <br/>
           <button>Add Bench</button>
         </form>
       );

@@ -4,6 +4,7 @@ header {
 
 .search {
   width: 1000px;
+  height: 500px;
   position: relative;
   margin: 0 auto;
   border: 3px solid darkgoldenrod;
@@ -18,7 +19,7 @@ header {
 .index {
   width: 496px;
   height: 496px;
-  float: left;
+  float: right;
   border: 2px solid cornflowerblue;
   overflow: scroll;
 }
@@ -34,4 +35,16 @@ header {
   height: 500px;
   margin: 0 auto;
   float: left;
+}
+
+.bench-form {
+  height: auto;
+  width: 500px;
+  background-color: palegoldenrod;
+  border: 2px solid forestgreen;
+}
+
+.bench-form > label {
+  display: block;
+  margin: 5px;
 }

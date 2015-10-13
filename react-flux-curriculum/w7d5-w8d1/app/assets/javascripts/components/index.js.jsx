@@ -30,10 +30,10 @@
         });
       }
       return (
-        <div className="index">
-          {
-            items
-          }
+        <div>
+          <div className="index">
+            {items}
+          </div>
         </div>
       );
     }
