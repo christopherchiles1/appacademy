@@ -4,5 +4,5 @@ Coded in collaboration with [Sven ten Haaf](https://github.com/Sventenhaaf).
 ## Enumerables
 A reimplementation of some common ruby enumerable methods.
 
-## Ghost
-A two player console word game, [Ghost](https://en.wikipedia.org/wiki/Ghost_(game)).
+## Ghost (game)
+An implementation of the word game [Ghost](https://en.wikipedia.org/wiki/Ghost_(game)), built for the terminal.
