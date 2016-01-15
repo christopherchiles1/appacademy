@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require_relative 'board'
 require_relative 'display'
 require_relative 'player'
@@ -12,8 +10,7 @@ class Game
   }
 
   def initialize(difficulty = :easy)
-    settings = LEVELS[difficulty] || LEVELS[:easy]
-    @board = Board.new(*settings)
+    @board = Board.new(*LEVELS[difficulty])
     @display = Display.new(board)
     @player = Player.new(display)
     @num_rounds = 0
