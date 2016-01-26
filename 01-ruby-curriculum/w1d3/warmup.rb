@@ -17,49 +17,62 @@ def range(a, b, arr = [])
   range(a + 1, b, arr + [a])
 end
 
-# def exp( base, power )
-#   # recursion 1
-#   return 1 if power == 0
-#   base * exp(base, power - 1)
-# end
-
-def exp(base, power)
-  return 1 if power == 0
-  return base if power == 1
-  if power.even?
-    square = exp(base, power / 2)
-    square * square
+## exp(b, p) returns the exponentiation b ** p for integer p values
+# - recursive method
+def exp(b, p)
+  return nil if b.zero? && p.zero?
+  return 1 if p.zero?
+  b * exp(b, p - 1)
+end
+# - slightly faster recursive method
+def exp(b, p)
+  return nil if b.zero? && p.zero?
+  return 1 if p.zero?
+  return b if p == 1
+  if p.even?
+    part = exp(b, p / 2)
+    part * part
   else
-    square = exp(base, (power - 1) / 2)
-    base * square * square
+    part = exp(b, (p - 1) / 2)
+    b * part * part
   end
 end
 
+## Array#deep_dup returns a deeply copied clone of the array
 class Array
   def deep_dup
     self.map { |el| el.is_a?(Array) ? el.deep_dup : el }
   end
 end
 
+## fibonacci(num) returns an array of num fibonacci numbers, starting with 0
+# - recursive method
 def fibonacci(num)
-  return [0] if num == 1
-  return [0, 1] if num == 2
-  array = fibonacci(num - 1)
-  array << array[-2] + array[-1]
+  return (0...num).to_a if num <= 2
+  arr = fibonacci(num - 1)
+  arr << arr[-2] + arr[-1]
+end
+# - iterative method (better space complexity)
+def fibonacci(num)
+  return (0...num).to_a if num <= 2
+  arr = [0, 1]
+  (3..num).each { |i| arr << arr[-2] + arr[-1] }
+  arr
 end
 
-def bsearch(array, target)
-    return nil if array.empty?
+## bsearch(arr, target) runs a binary search for a target on an array
+def bsearch(arr, target)
+    return nil if arr.empty?
 
-    half = array.length / 2
-    case target <=> array[half]
+    half = arr.length / 2
+    case target <=> arr[half]
     when -1
-      left_result = bsearch(array.take(half), target)
+      left_result = bsearch(arr.take(half), target)
       left_result ? left_result : nil
     when 0
       return half
     when 1
-      right_result = bsearch(array.drop(half + 1), target)
+      right_result = bsearch(arr.drop(half + 1), target)
       right_result ? half + right_result : nil
     end
 end
