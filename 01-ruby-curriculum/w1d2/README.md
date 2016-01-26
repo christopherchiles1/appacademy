@@ -1,4 +1,4 @@
-# Week 1 Day 2 - Memory (with Colorize)
+# Week 1 Day 2 - Memory Game (with Colorize)
 Coded in collaboration with [Leah Drake](https://github.com/lbdrake).
 
 ## Memory (Game)
