@@ -1,12 +1,20 @@
-require 'byebug'
-# def range(start, final)
-#   #iterative
-#   (start..final).inject([], &:<<)
-# end
+# Overview of Recursion vs Iteration techniques
 
-def range(start, final)
-  return [] if final < start
-  [start] + range(start + 1, final)
+# range(a, b) returns an array of values from a to b
+# - iterative method
+def range(a, b)
+  return [] if a < b
+  (a..b).inject([], &:<<)
+end
+# - recursive method
+def range(a, b)
+  return [] if b < a
+  [a] + range(a + 1, b)
+end
+# - tail recursive method (if Ruby had tail-recursion)
+def range(a, b, arr = [])
+  return arr if b < a
+  range(a + 1, b, arr + [a])
 end
 
 # def exp( base, power )
